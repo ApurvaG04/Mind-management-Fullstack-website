@@ -1,0 +1,36 @@
+.Journal {
+  background-color: rgb(180, 205, 250);
+  min-height: 100vh;
+  color: rgb(10, 9, 9);
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  line-height: 50px;
+  padding: 60px;
+}
+
+.homepage {
+  text-align: center;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  line-height: 50px;
+  padding: 200px;
+}
+
+.background {
+  background-image: url("bkg.png");
+  height:'100vh';
+  margin-top:'-70px';
+  font-size:'50px';
+  background-size: 'cover';
+  background-repeat: 'no-repeat'
+}
+
+.navbar-brand{
+  padding-left: 20px;
+}
+
+.btn-login{
+  text-align: right;
+}
