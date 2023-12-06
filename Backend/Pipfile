@@ -17,6 +17,7 @@ flask-wtf = "*"
 wtforms = "*"
 email-validator = "*"
 flask-jwt-extended = "*"
+httpx = "*"
 
 [dev-packages]
 

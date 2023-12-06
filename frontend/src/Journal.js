@@ -2,17 +2,22 @@ import './App.css';
 import JournalList from './components/JournalList';
 import Form from './components/Form';
 import {useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
 
 function Journal() {
   const [journals, setJournals] = useState([])
   const [editedJournal, setEditedJournal] = useState(null)
+  const userEmail = sessionStorage.getItem('email');
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/journal', {
-      'method': 'GET',
+      'method': 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        "userEmail": userEmail,
+      })
     })
     .then(resp => resp.json())
     .then(resp => setJournals(resp))
@@ -54,15 +59,19 @@ function Journal() {
     setEditedJournal({headline:'', details:''})
   }
 
-  return (
+  return ( 			
     <div className="Journal">
       <div className='row'>
         <div className='col'>
           <h1>Daily Journal</h1>
         </div>
         <div className='col'>
-            <button className='btn btn-success' onClick={openForm}>Create</button>
-        </div>
+            {(userEmail && userEmail!="" && userEmail!=undefined)?
+            <button className='btn btn-success' onClick={openForm}>Create</button>:
+            <Link to="/login">
+              <button type="button" className="btn btn-primary btn-lg">Login</button>
+            </Link>}
+        </div> 
       </div>
       <br/>
       <br/>
@@ -70,7 +79,7 @@ function Journal() {
       <br/>
       <br/>
       <JournalList journals = {journals} editJournal = {editJournal} deleteJournal = {deleteJournal}/>
-    </div>
+    </div> 
   );
 }
 

@@ -5,6 +5,7 @@ import Home from './Home';
 import Structure from './Structure';
 import Journal from './Journal';
 import Login from './Login';
+import Signup from './Signup';
 
 // import {useState, useEffect} from 'react';
 
@@ -17,6 +18,7 @@ const App = () => {
                         <Route exact path="/" element={<Home />} />
                         <Route path="/journal" element={<Journal/>} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
                     </Routes>                             
                 </Structure>
             </Router>

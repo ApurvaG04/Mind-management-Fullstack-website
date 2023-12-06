@@ -1,11 +1,10 @@
 .Journal {
-  background-color: rgb(180, 205, 250);
+  background-color: rgb(220, 229, 245);
   min-height: 100vh;
   color: rgb(10, 9, 9);
   flex: 1;
   justify-content: center;
   align-items: center;
-  line-height: 50px;
   padding: 60px;
 }
 
@@ -32,5 +31,5 @@
 }
 
 .btn-login{
-  text-align: right;
+  align-items: end;
 }

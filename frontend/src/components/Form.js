@@ -3,6 +3,7 @@ import APIService from './APIService'
 
 
 function Form(props) {
+    const userEmail = sessionStorage.getItem('email');
     const [headline, setHeadline] = useState(props.journal.headline)
     const [details, setDetails] = useState(props.journal.details)
 
@@ -18,8 +19,8 @@ function Form(props) {
     }
 
     const createJournal = () => {
-        APIService.CreateJournal({headline, details})
-        .then(resp => props.cratedJournal(resp))
+        APIService.CreateJournal({userEmail, headline, details})
+        .then(resp => props.createdJournal(resp))
         .catch(error => console.log(error))
     }
 
