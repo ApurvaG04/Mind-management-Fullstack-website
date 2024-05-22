@@ -1,7 +1,10 @@
-# Run below command before creating the database
-# from app import app
-# from app import db
-# app.app_context().push()
-# db.create_all()
+# Install all the dependencies from Pipfile
 
-# Start debugging to start the backend
+# Run below command before creating the database
+
+from app import app
+from app import db
+app.app_context().push()
+db.create_all()
+
+# Run -> Start debugging to start the backend

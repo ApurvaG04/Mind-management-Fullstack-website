@@ -22,6 +22,7 @@ const Login = () => {
         fetch('http://127.0.0.1:5000/login', opts)
         .then(resp => {
             if(resp.status === 200) {
+                console.log("logged in")
                 alert("Login successful");
                 navigate('/');
                 window.location.reload(false)
@@ -40,29 +41,25 @@ const Login = () => {
     }
 
     return (
-        <div className='col-md-8 col-lg-6 col-xl-4 offset-xl-1'>
-            <div className='container'>
-                <h1 className='page-header text-center'>Login</h1>
-            </div>
+        <div className='container d-flex align-items-center px-4 pt-5 my-5 py-4 bg-body-secondary col-lg-4'>
+            <div className='form-signin w-100 m-auto '>
             <form>
-                {(userEmail && userEmail!="" && userEmail!=undefined) ? "You are logged in with this email "+userEmail : 
-                <div>
-                    <div className="form-outline mb-4">
-                        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} text={email} name="email" id="form3Example3" className="form-control form-control-lg" placeholder="Enter email" />
-                        <label className="form-label" htmlFor="form3Example3">Email address</label>
-                    </div>            
-                    <div className="form-outline mb-3">
-                        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} text={password} name="password" id="form3Example4" className="form-control form-control-lg" placeholder="Enter password" />
-                        <label className="form-label" htmlFor="form3Example4">Password</label>
-                    </div>
-                </div>}
-                <div className="text-center text-lg-start mt-4 pt-2">
-                    <button type="button" className="btn btn-primary btn-lg" onClick={loginClick} >Login</button>
-                    <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup" className="link-danger">Register</a></p>
+                {/* <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"/> */}
+                <h1 className="h3 mb-3 fw-normal">Login</h1>
+                
+                <div className="form-floating py-2">
+                    <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} text={email} name="email" className="form-control" id="floatingInput" placeholder="name@example.com"/>
+                    <label htmlFor="floatingInput">Email address</label>
                 </div>
-  
+                <div className="form-floating py-2">
+                    <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} text={password} name="password" className="form-control" id="floatingPassword" placeholder="Password"/>
+                    <label htmlFor="floatingPassword">Password</label>
+                </div>
+
+                <button type="button" className="btn btn-primary w-100 py-2" onClick={loginClick}>Login</button>
+                <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup" className="link-danger">Register</a></p>
             </form>
-           
+            </div>
         </div>
     );
 };

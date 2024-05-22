@@ -9,6 +9,11 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
 import datetime
+from bs4 import BeautifulSoup
+import pandas as pd
+import time
+import requests
+from urllib.request import urlopen
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
@@ -38,11 +43,13 @@ class Journals(db.Model):
     headline = db.Column(db.String(100))
     details = db.Column(db.Text())
     date = db.Column(db.DateTime, default = datetime.datetime.now)
+    emotions = db.Column(db.Text())
 
-    def __init__(self, user, headline, details):
+    def __init__(self, user, headline, details, emotions):
         self.user = user
         self.headline = headline
         self.details = details
+        self.emotions = emotions
         
 
 
@@ -89,7 +96,7 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message":"Account successfully created", "email":email_})
+    return jsonify({"message":"Account successfully created", "email":email_}), 200
 
 
 @app.route("/logout")
@@ -101,7 +108,7 @@ def logout():
 #---------------------------------------------------- Journal------------------------------------------------------------
 class JournalSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'userEmail', 'headline', 'details', 'date')
+        fields = ('id', 'userEmail', 'headline', 'details', 'date', 'emotions')
 
 journal_schema = JournalSchema()
 journals_schema = JournalSchema(many=True)
@@ -111,11 +118,28 @@ def write_journal():
     user = request.json['userEmail']
     headline = request.json['headline']
     details = request.json['details']   
-
-    journals = Journals(user, headline, details)
+    emotions = emotion_tracker(headline, details)
+    journals = Journals(user, headline, details, emotions)
     db.session.add(journals)
     db.session.commit()
     return journal_schema.jsonify(journals)
+
+def emotion_tracker(headline, details):
+    url = "https://twinword-emotion-analysis-v1.p.rapidapi.com/analyze/"
+    payload = { "text": headline + " " + details }
+    headers = {
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "2b7110fff0msh11ce59b9a7cc739p1cd368jsn119c9f0fde47",
+        "X-RapidAPI-Host": "twinword-emotion-analysis-v1.p.rapidapi.com"
+    }
+
+    response = requests.post(url, data=payload, headers=headers)
+    print(response)
+    response = response.json()
+    emotion = response['emotions_detected']
+    if type(emotion)== list:
+        result = ", ".join(emotion)
+    return result
 
 @app.route('/journal', methods = ['POST'])
 @cross_origin()
@@ -124,6 +148,8 @@ def get_journals():
     all_journals = Journals.query.filter_by(user=user)
     results = journals_schema.dump(all_journals)
     return jsonify(results)
+
+
 
 @app.route('/journal/<id>', methods = ['GET'])
 def get_each_journal(id):
@@ -135,8 +161,10 @@ def update_journal(id):
     journal = Journals.query.get(id)
     headline = request.json['headline']
     details = request.json['details']
+    emotions = emotion_tracker(headline, details)   
     journal.headline = headline
-    journal.details = details        
+    journal.details = details   
+    journal.emotions = emotions
     db.session.commit()
     return journal_schema.jsonify(journal)
 
@@ -146,6 +174,78 @@ def delete_journal(id):
     db.session.delete(journal)
     db.session.commit()
     return journal_schema.jsonify(journal)
+
+@app.route('/affirmation', methods = ['GET'])
+def Affirmations():
+    url = "https://positivity-tips.p.rapidapi.com/api/positivity/quote"
+
+    headers = {
+        "X-RapidAPI-Key": "2b7110fff0msh11ce59b9a7cc739p1cd368jsn119c9f0fde47",
+        "X-RapidAPI-Host": "positivity-tips.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers)
+    affirmation = response.json()
+    return affirmation
+
+@app.route('/readings', methods = ['GET']) 
+async def Readings():
+    topics = ['Anxiety-Disorders', 'Attention-Deficit-Hyperactivity-Disorder-ADHD', 'Autism-Spectrum-Disorders-ASD', 'Bipolar-Disorder', 'Borderline-Personality-Disorder', 'Depression', 'Eating-Disorders', 'Obsessive-Compulsive-Disorder-OCD', 'Post-Traumatic-Stress-Disorder-PTSD', 'Schizophrenia']
+    topics_content = []
+    articles = []
+    
+    for i in topics:
+        url = "https://www.nimh.nih.gov/health/topics/"+i
+        html = requests.get(url)
+        soup = BeautifulSoup(html.content, "html.parser")
+        paragraph = []
+        for row in soup.select('.mobile-collapse div'):    
+            lines = row.get_text()
+            paragraph.append(lines)
+        if i == "Obsessive-Compulsive-Disorder-OCD":
+                for row in soup.select('.mobile-collapse'):
+                    lines = row.get_text()
+                    paragraph.append(lines)
+        print(paragraph)
+        topics_content.append(paragraph)
+    print(topics_content)
+    for row in range(len(topics)):
+        articles.append([topics[row], topics_content[row]])
+    return articles
+
+
+@app.route('/readings/<topics>', methods = ['GET']) 
+async def Readings_articles(topics):
+    url = "https://www.nimh.nih.gov/health/topics/"+topics
+    article = []
+    heading = []
+    para = []
+    html = requests.get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    # title_id = soup.select('#block-nimhtheme-page-title')
+    # title = title_id.get_text()
+    # article.append(title)
+    for i in soup.select('div', {'data-fieldname': 'field_anchor_links'}):
+        for j in i.select('.box_section'):
+            content = j.get_text()
+            k = (content.rstrip().split('?'))
+            k[0] = k[0] + "?"
+            para.append(k)
+        break
+    # for row in range(len(heading)):
+    #     article.append([heading[row], para[row]])
+        
+    return para
+        # article.append(paragraph)
+   
+
+@app.route('/meditation', methods = ['GET']) 
+def Meditation():
+    url = "https://v1.nocodeapi.com/apurva224/spotify/nwQLiGFKCEXdWTbr/search?q=meditation&type=track"
+    params = {}
+    r = requests.get(url = url, params = params) #headers=headersAPI
+    result = r.json()
+    return result
 
 
 

@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
 flask-sqlalchemy = "*"
 python-dotenv = "*"
 flask-cors = "*"
@@ -18,8 +17,13 @@ wtforms = "*"
 email-validator = "*"
 flask-jwt-extended = "*"
 httpx = "*"
+flask-restx = "*"
+requests = "*"
+flask = {extras = ["async"], version = "*"}
+beautifulsoup4 = "*"
+pandas = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.11.4"

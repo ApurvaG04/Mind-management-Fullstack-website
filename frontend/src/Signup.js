@@ -24,6 +24,7 @@ const Signup = () => {
         fetch('http://127.0.0.1:5000/signup', opts)
         .then(resp => {
             if(resp.status === 200) {
+                console.log(name)
                 alert("Account created successfully");
                 navigate('/login');
                 window.location.reload(false)
@@ -38,33 +39,35 @@ const Signup = () => {
     }
 
     return (
-        <div className='col-md-8 col-lg-6 col-xl-4 offset-xl-1'>
-            <div className='container'>
-                <h1 className='page-header text-center'>Register</h1>
+        <div className='container d-flex align-items-center px-4 pt-5 my-5 py-4 bg-body-secondary col-lg-4'>
+        <div className='form-signin w-100 m-auto'>
+        <form>
+            {/* <img class="mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"/> */}
+            <h1 className="h3 mb-3 fw-normal">Signup</h1>
+            <div className="form-floating py-2">
+                <input type="name" value={name} onChange={(event) => setName(event.target.value)} text={name} name="name" id="floatingName" className="form-control" placeholder="Enter name" />
+                <label className="form-label" htmlFor="floatingName">Name</label>
             </div>
-            <form>
-                {/* {(userEmail && userEmail!="" && userEmail!=undefined) ? "You are logged in with this email "+userEmail :  */}
-                <div>
-                    <div className="form-outline mb-4">
-                        <input type="name" value={name} onChange={(event) => setName(event.target.value)} text={name} name="name" id="form3Example3" className="form-control form-control-lg" placeholder="Enter name" />
-                        <label className="form-label" htmlFor="form3Example3">Name</label>
-                    </div> 
-                    <div className="form-outline mb-4">
-                        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} text={email} name="email" id="form3Example3" className="form-control form-control-lg" placeholder="Enter email" />
-                        <label className="form-label" htmlFor="form3Example3">Email address</label>
-                    </div>            
-                    <div className="form-outline mb-3">
-                        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} text={password} name="password" id="form3Example4" className="form-control form-control-lg" placeholder="Enter password" />
-                        <label className="form-label" htmlFor="form3Example4">Password</label>
-                    </div>
-                </div>
-                <div className="text-center text-lg-start mt-4 pt-2">
-                    <button type="button" className="btn btn-primary btn-lg" onClick={register} >Register</button>
-                </div>
-  
-            </form>
-           
+            <div className="form-floating py-2">
+                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} text={email} name="email" className="form-control" id="floatingInput" placeholder="name@example.com"/>
+                <label htmlFor="floatingInput">Email address</label>
+            </div>
+            <div className="form-floating py-2">
+                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} text={password} name="password" className="form-control" id="floatingPassword" placeholder="Password"/>
+                <label htmlFor="floatingPassword">Password</label>
+            </div>
+
+            <div className="form-check text-start my-3">
+            <input className="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault"/>
+            <label className="form-check-label" htmlFor="flexCheckDefault">
+                Remember me
+            </label>
+            </div>
+            <button className="btn btn-primary w-100 py-3" onClick={register} type="button">Signup</button>
+            <p className="small fw-bold mt-2 pt-1 mb-1">Already have an account? <a href="/login" className="link-danger">Login</a></p>
+        </form>
         </div>
+    </div>
     );
 };
 export default Signup;

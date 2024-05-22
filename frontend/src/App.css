@@ -1,35 +1,103 @@
+@import url("http://fonts.googleapis.com/css?family=Oswald:400,300,700");
+
+* {
+  font-family:'Roboto';
+}
 .Journal {
-  background-color: rgb(220, 229, 245);
-  min-height: 100vh;
-  color: rgb(10, 9, 9);
-  flex: 1;
+  background-color: rgb(224, 214, 205);
+  background-size: 10;
+  width: 80%;
+  /* min-height: 100vh;
+  color: rgb(10, 9, 9);*/
+  flex: 2;
   justify-content: center;
-  align-items: center;
-  padding: 60px;
+  align-items: center;  
+  /* padding: 60px; */
 }
 
-.homepage {
+.home {
+      background: linear-gradient(-45deg, #e08569, #5bbfe3, #8be3cf);
+      background-size: 200% 200%;
+      height:100vh;
+      animation: gradient 15s ease infinite;
+}
+.quote-background {
+  background-image: url("Quote.jpg");
+  margin-top: 0;
+  
+}
+
+.list-group {
+  text-align: justify;
+}
+
+.contact-card {
+  align-items: center;
+  background-color: white;
+  outline-width: 2px;
+  outline-color: white;
+  outline-style: groove;
+  border-radius: 5px;
+}
+.contact-headline {
   text-align: center;
-  flex: 1;
+}
+
+
+.footer {
+  background-color: black;
+  /* height: 100vh; */
+}
+
+.quoteTile{
+  /* background-image: url("Quote1.png"); */
+  display: flex;
   justify-content: center;
   align-items: center;
-  line-height: 50px;
-  padding: 200px;
+  /* background-color: rgba(125, 129, 131, 0.182); */
+  /* height: 300px;
+  width: 400px; */
+  margin-top: 120px;
+  /* margin-left: 400px; */
+  border-radius: 10%;
+  
 }
 
-.background {
-  background-image: url("bkg.png");
-  height:'100vh';
-  margin-top:'-70px';
-  font-size:'50px';
-  background-size: 'cover';
-  background-repeat: 'no-repeat'
+.outlines {
+  background-color: white;
+  outline-width: 2px;
+  outline-color: white;
+  outline-style: groove;
+  border-radius: 5px;
 }
 
-.navbar-brand{
-  padding-left: 20px;
+.quote-text {
+  font-family: 'Times New Roman', serif;
+  font-size: xx-large;
+  padding: 10px;
+}
+p {
+  font-size: 20px;
+  
+}
+h5{
+  padding: 10px;
 }
 
-.btn-login{
-  align-items: end;
+.separator {
+  border-width: 5px;
+  border-color: #7fcbf4;
+  border-style:groove;
+}
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }

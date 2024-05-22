@@ -15,10 +15,11 @@ function JournalList(props) {
         <div>
             {props.journals && props.journals.map(journal => {
             return (
-            <div key = {journal.id}>
+            <div key = {journal.id} className=''>
                 <h3>{journal.headline}</h3>
                 <p>{journal.details}</p>
                 <p>{journal.date}</p>
+                <p>Emotions: <span className="w3-tag">{journal.emotions}</span></p>
 
                 <div className='row'>
                     <div className='col-md-1'>
@@ -37,4 +38,4 @@ function JournalList(props) {
     )
 }
 
-export default JournalList
+export default JournalList;
