@@ -1,6 +1,6 @@
 {
+  "homepage": "https://ApurvaG04.github.io/Mind-management-Fullstack-website/frontend/src/",
   "devDependencies": {
-    "homepage": "https://ApurvaG04.github.io/Mind-management-Fullstack-website/frontend/src/",
     "gh-pages": "^6.1.1"   
   },
   "scripts": {
