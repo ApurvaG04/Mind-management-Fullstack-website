@@ -14,6 +14,9 @@ import pandas as pd
 import time
 import requests
 from urllib.request import urlopen
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
@@ -21,7 +24,21 @@ app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=120)
 jwt = JWTManager(app)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/journal'
+print("MYSQLUSER:", os.environ.get('MYSQLUSER'))
+print("MYSQLPASSWORD:", os.environ.get('MYSQLPASSWORD'))
+print("MYSQLHOST:", os.environ.get('MYSQLHOST'))
+print("MYSQLPORT:", os.environ.get('MYSQLPORT'))
+print("MYSQLDATABASE:", os.environ.get('MYSQLDATABASE'))
+
+
+user=os.environ.get('MYSQLUSER')
+password=os.environ.get('MYSQLPASSWORD')
+host=os.environ.get('MYSQLHOST')
+port = os.environ.get('MYSQLPORT')
+database=os.environ.get('MYSQLDATABASE')
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{password}@{host}:3306/{database}"
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -39,7 +56,7 @@ class User(db.Model):
 
 class Journals(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(150))
+    email = db.Column(db.String(150))
     headline = db.Column(db.String(100))
     details = db.Column(db.Text())
     date = db.Column(db.DateTime, default = datetime.datetime.now)
@@ -115,11 +132,11 @@ journals_schema = JournalSchema(many=True)
 
 @app.route('/journal/write', methods = ['Post'])
 def write_journal():
-    user = request.json['userEmail']
+    email = request.json['userEmail']
     headline = request.json['headline']
     details = request.json['details']   
     emotions = emotion_tracker(headline, details)
-    journals = Journals(user, headline, details, emotions)
+    journals = Journals(email, headline, details, emotions)
     db.session.add(journals)
     db.session.commit()
     return journal_schema.jsonify(journals)
@@ -250,7 +267,9 @@ def Meditation():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(host='0.0.0.0', port=5000)
 
 
      

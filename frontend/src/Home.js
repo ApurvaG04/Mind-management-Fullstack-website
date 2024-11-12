@@ -30,7 +30,7 @@ const Home = () => {
     return (
         <div className='home'>
             <div className="px-4 py-4 text-center">
-                <h1 className="display-4 fw-bold text-body-emphasis">Be mindful with Mind Care</h1>
+                <h1 className="display-4 fw-bold text-body-emphasis">Be mindful with Mind Fitness</h1>
                 <div className="col-lg-6 mx-auto">
                     <p className="lead mb-4">Understand the necessity and importance of mindfulness journey and start taking care of your mind with easy, proven and effective mindfulness steps. We are here to help you taking care of yourself and build a effective mindfulness discipline.</p>
                     <div className="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">

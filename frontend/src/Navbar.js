@@ -38,7 +38,7 @@ const Navigation = (props) => {
 	return (
 		<Navbar expand="lg" className="bg-dark" data-bs-theme="dark">
 			<Container>
-				<Navbar.Brand href="/">Mind Care</Navbar.Brand>
+				<Navbar.Brand href="/">Mind Fitness</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 				<Nav variant="underline" className="me-auto">
