@@ -160,8 +160,8 @@ def emotion_tracker(headline, details):
 @app.route('/journal', methods = ['POST'])
 @cross_origin()
 def get_journals():
-    user = request.json['userEmail']
-    all_journals = Journals.query.filter_by(user=user)
+    email = request.json['userEmail']
+    all_journals = Journals.query.filter_by(email=email)
     results = journals_schema.dump(all_journals)
     return jsonify(results)
 
