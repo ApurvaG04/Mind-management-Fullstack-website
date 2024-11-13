@@ -61,8 +61,8 @@ class Journals(db.Model):
     date = db.Column(db.DateTime, default = datetime.datetime.now)
     emotions = db.Column(db.Text())
 
-    def __init__(self, user, headline, details, emotions):
-        self.user = user
+    def __init__(self, email, headline, details, emotions):
+        self.email = email
         self.headline = headline
         self.details = details
         self.emotions = emotions
