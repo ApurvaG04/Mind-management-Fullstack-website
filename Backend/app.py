@@ -3,14 +3,13 @@ from datetime import timedelta
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import create_access_token, get_jwt, jwt_required, JWTManager, unset_jwt_cookies
-from werkzeug.security import generate_password_hash, check_password_hash
+
 import os
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
 import datetime
 from bs4 import BeautifulSoup
-import pandas as pd
 import time
 import requests
 from urllib.request import urlopen
@@ -24,21 +23,21 @@ app.config['PERMANENT_SESSION_LIFETIME'] =  timedelta(minutes=120)
 jwt = JWTManager(app)
 CORS(app)
 
-print("MYSQLUSER:", os.environ.get('MYSQLUSER'))
-print("MYSQLPASSWORD:", os.environ.get('MYSQLPASSWORD'))
-print("MYSQLHOST:", os.environ.get('MYSQLHOST'))
-print("MYSQLPORT:", os.environ.get('MYSQLPORT'))
-print("MYSQLDATABASE:", os.environ.get('MYSQLDATABASE'))
-
-
 user=os.environ.get('MYSQLUSER')
 password=os.environ.get('MYSQLPASSWORD')
 host=os.environ.get('MYSQLHOST')
-port = os.environ.get('MYSQLPORT')
+port=os.environ.get('MYSQLPORT')
 database=os.environ.get('MYSQLDATABASE')
+
+print("MYSQLUSER:", user)
+print("MYSQLPASSWORD:", password)
+print("MYSQLHOST:", host)
+print("MYSQLPORT:", port)
+print("MYSQLDATABASE:", database)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{password}@{host}:3306/{database}"
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://root:@localhost/journal"
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
