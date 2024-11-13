@@ -16,4 +16,4 @@ requests
 flask[async]
 beautifulsoup4
 pandas
-guicorn==23.0.0
+guicorn
