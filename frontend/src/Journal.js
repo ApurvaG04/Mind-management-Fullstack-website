@@ -11,7 +11,7 @@ function Journal() {
   const userEmail = sessionStorage.getItem('email');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/journal', {
+    fetch(process.env.REACT_APP_API_URL + '/journal', {
       'method': 'POST',
       headers: {
         'Content-Type': 'application/json'
