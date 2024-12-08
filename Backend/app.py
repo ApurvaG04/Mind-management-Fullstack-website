@@ -35,8 +35,8 @@ print("MYSQLHOST:", host)
 print("MYSQLPORT:", port)
 print("MYSQLDATABASE:", database)
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{password}@{host}:3306/{database}"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{password}@{host}:3306/{database}"
 # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://root:@localhost/journal"
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 db = SQLAlchemy(app)
