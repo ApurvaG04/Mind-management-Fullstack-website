@@ -1,7 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Affirmations() {
         const [affirmation, setAffirmation] = useState("")
@@ -25,7 +25,7 @@ function Affirmations() {
         // },[])
 
         const getQuote= () => {
-          fetch(process.env.REACT_APP_API_URL + '/affirmation', {
+          fetch(`${apiUrl}/affirmation`, {
             'method': 'GET',
             headers: {
               'Content-Type': 'application/json'
