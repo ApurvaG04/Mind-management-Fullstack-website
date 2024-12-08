@@ -15,7 +15,7 @@ const Navigation = (props) => {
         const opts = {
             method: 'GET',
         }
-        fetch('http://127.0.0.1:5000/logout', opts)
+        fetch(process.env.REACT_APP_API_URL + '/logout', opts)
         .then(resp => {
 			if(resp.status === 200) {
 				sessionStorage.removeItem("email");
